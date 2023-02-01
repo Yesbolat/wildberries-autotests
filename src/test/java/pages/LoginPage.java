@@ -1,4 +1,4 @@
-package com.gmail.chemko.nast.pages;
+package pages;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
@@ -10,36 +10,36 @@ public class LoginPage {
 
     private SelenideElement
 
-            loginPage = $(".navbar-pc__icon--profile"),
+            login = $(".navbar-pc__icon--profile"),
             phoneInput = $(".input-item"),
             requestCodeButton = $("#requestCode"),
             captchaImage = $(".form-block__captcha-img");
 
 
-    @Step("Click on the icon 'Войти'")
-    public LoginPage  goToLoginPage() {
-        loginPage.click();
+    @Step("Open login page'")
+    public LoginPage  openLoginPage() {
+        login.click();
 
         return this;
     }
 
-    @Step("Enter the phone number in the input field")
+    @Step("Enter phone number")
     public LoginPage inputPhoneNumber() {
         phoneInput.click();
-        phoneInput.sendKeys("123456789");
+        phoneInput.setValue("77079207040");
 
         return this;
     }
 
-    @Step("Click on the button 'Получить код'")
-    public LoginPage clickOnRequestCodeButton() {
+    @Step("Get an OTP code")
+    public LoginPage getRequestCode() {
         requestCodeButton.click();
 
         return this;
     }
 
     @Step("Check that captcha has appeared")
-    public LoginPage checkThatCaptchaAppeared() {
+    public LoginPage checkCaptcha() {
         captchaImage.shouldBe(visible);
 
         return this;

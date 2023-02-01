@@ -1,4 +1,4 @@
-package com.gmail.chemko.nast.pages;
+package pages;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -11,28 +11,28 @@ public class CartPage {
 
     private SelenideElement
 
-            cartPage = $(".navbar-pc__icon--basket"),
+            cart = $(".navbar-pc__icon--basket"),
             searchInput = $("#searchInput"),
             resultsHeader = $(".same-part-kt"),
             addToCartButton = $(".btn-main"),
             cartSection = $(".basket-page"),
             deleteButton = $(".btn__del");
 
-    @Step("Enter article number of the item in the search bar")
+    @Step("Enter item's article number")
     public CartPage inputArticle() {
-        searchInput.setValue("21028330").pressEnter();
+        searchInput.click().setValue("40906848").pressEnter();
 
         return this;
     }
 
-    @Step("Check the search result")
+    @Step("Check search result")
     public CartPage checkArticleResult() {
-        resultsHeader.shouldBe(text("Браслет для часов"));
+        resultsHeader.shouldHave(text("Оригинальные мужские наручные часы Emporio Armani"));
 
         return this;
     }
 
-    @Step("Add the item to cart")
+    @Step("Add item to cart")
     public CartPage addItemToCart() {
         addToCartButton.click();
         Selenide.sleep(1000);
@@ -40,30 +40,29 @@ public class CartPage {
         return this;
     }
 
-    @Step("Go to shopping cart")
-    public CartPage goToCartPage() {
-        cartPage.click();
+    @Step("Open cart page")
+    public CartPage openCartPage() {
+        cart.click();
 
         return this;
     }
 
-    @Step("Check that the item has been added to cart")
+    @Step("Check added item to cart")
     public CartPage checkAddedItem() {
-        cartSection.shouldHave(text("Браслет для часов"));
+        cartSection.shouldHave(text("Оригинальные мужские наручные часы Emporio Armani"));
 
         return this;
     }
 
-    @Step("Remove the item from cart")
+    @Step("Remove item from cart")
     public CartPage removeItemFromCart() {
-        cartSection.hover();
         deleteButton.click();
 
         return this;
     }
 
-    @Step("Check that the cart is empty")
-    public CartPage checkThatCartIsEmpty() {
+    @Step("Check empty cart")
+    public CartPage checkCartIsEmpty() {
         cartSection.shouldHave(text("В корзине пока ничего нет"));
 
         return this;

@@ -5,14 +5,15 @@ plugins {
 
 allure {
     report {
-        version = "2.16.0"
+        version = "2.19.0"
     }
     adapter { //отвечает за появление папочки build/allure-results
-        autoconfigure = true
-    aspectjweaver = true //
-    configuration = "testImplementation"
-    useJUnit5 {
-        version = "2.16.0"
+        aspectjweaver = true //обработка аннотации @step
+        frameworks {
+            junit5 { //название фреймворка
+                adapterVersion = "2.16.0" //версия интеграции фреймворка и Allure
+            }
+        }
     }
 }
 
@@ -25,28 +26,16 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-    testImplementation 'com.codeborne:selenide:6.3.2'
-    testImplementation 'io.qameta.allure:allure-selenide:2.16.0'
-    testImplementation 'org.aspectj:aspectjweaver:1.9.6'
-    testImplementation 'org.aeonbits.owner:owner:1.0.12'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    testRuntimeOnly 'org.slf4j:slf4j-simple:1.7.29'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1' // Junit5
+    testImplementation 'com.codeborne:selenide:6.3.2' // Selenide
+    testImplementation 'io.qameta.allure:allure-selenide:2.16.0' // Allure
+    testImplementation 'org.aspectj:aspectjweaver:1.9.6' // Allure
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1' // Junit5
+    testRuntimeOnly 'org.slf4j:slf4j-simple:1.7.29' // Selenide
 }
 
 tasks.withType(Test) {
-    systemProperties(System.getProperties())
     useJUnitPlatform()
-
-    if (System.getProperty("threads") != null) {
-        systemProperties += [
-                'junit.jupiter.execution.parallel.enabled'                 : true,
-                'junit.jupiter.execution.parallel.mode.default'            : 'concurrent',
-                'junit.jupiter.execution.parallel.mode.classes.default'    : 'concurrent',
-                'junit.jupiter.execution.parallel.config.strategy'         : 'fixed',
-                'junit.jupiter.execution.parallel.config.fixed.parallelism': System.getProperty("threads").toInteger()
-        ]
-    }
 
     testLogging {
         lifecycle {
